@@ -1,0 +1,46 @@
+-- PROJECT: SALES DATA ANALYSIS
+-- TOOL: ORACLE SQL PLUS
+
+-- 1. VIEW ALL SALES
+SELECT * FROM sales;
+
+-- 2. TOTAL REVENUE
+SELECT SUM(quantity * price) AS total_revenue
+FROM sales;
+
+-- 3. BEST SELLING PRODUCT
+SELECT product_name,
+       SUM(quantity) AS total_quantity
+FROM sales
+GROUP BY product_name
+ORDER BY total_quantity DESC;
+
+-- 4. REVENUE BY PRODUCT
+SELECT product_name,
+       SUM(quantity * price) AS product_revenue
+FROM sales
+GROUP BY product_name
+ORDER BY product_revenue DESC;
+
+-- 5. REVENUE BY CITY
+SELECT city,
+       SUM(quantity * price) AS total_revenue
+FROM sales
+GROUP BY city
+ORDER BY total_revenue DESC;
+
+-- 6. MONTHLY REVENUE
+SELECT TO_CHAR(sale_date, 'YYYY-MM') AS sales_month,
+       SUM(quantity * price) AS monthly_revenue
+FROM sales
+GROUP BY TO_CHAR(sale_date, 'YYYY-MM')
+ORDER BY sales_month;
+
+-- 7. SALES ABOVE 10000
+SELECT product_name,
+       quantity,
+       price,
+       quantity * price AS sale_revenue,
+       city
+FROM sales
+WHERE quantity * price > 10000;
